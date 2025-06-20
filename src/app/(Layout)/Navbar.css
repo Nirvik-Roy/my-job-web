@@ -1,0 +1,115 @@
+.nav_bar_links_wrapper{
+    background-color: #f0f3f4;
+    width: 100%;
+    padding: 11px 0px;
+}
+.navbar_links_div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav_link_left{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 20px;
+}
+.nav_link_left a{
+    color: rgb(94, 94, 94);
+    font-weight: 400;
+    font-size: 12px;
+    text-decoration: none;
+}
+.nav_link_right{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+}
+.nav_phone_wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+}
+.nav_phone_wrapper i{
+    font-size: 12px;
+}
+.nav_phone_wrapper p{
+    color: rgb(94, 94, 94);
+    font-weight: 500;
+    font-size: 12px;
+}
+.nav_link_right a{
+    color: rgb(94, 94, 94);
+    font-weight: 500;
+    font-size: 12px;
+    text-decoration: none;
+}
+.job_location_wrapper{
+    width: 100%;
+    padding: 20px 0px;
+    border-bottom: 1px solid #ccc;
+}
+.job_location_search_wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sign_in_post_jobs_btn_wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+}
+.sign_in_btn{
+    padding: 10px 25px;
+    color: #0a65cd;
+    border: 1px solid #ccc;
+    font-weight: 500;
+}
+.post_job_btn{
+    background-color:#0a65cd ;
+    padding: 10px 25px;
+    color: #fff;
+    font-weight: 500;
+}
+.job_search_nav_wrapper{
+    width: calc(100% - 90px);
+    border: 1px solid #ccc;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    
+}
+.logo_job_wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 20px;
+    width: 60%;
+}
+.job_input_div_nav{
+    width: calc(100% - 23%);
+}
+.job_search_nav_wrapper input{
+    height: 100%;
+    border: none;
+    width: 100%;
+    border-left: 1px solid #ccc;
+    outline: none;
+    padding: 0px 40px;
+}
+.job_country{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 90%;
+    padding: 0px 20px;
+    column-gap: 10px;
+    font-size: 13px;
+    width: 23%;
+    
+}
