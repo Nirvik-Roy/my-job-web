@@ -16,7 +16,7 @@ const PopularCategory = () => {
             <div className='universal_container'>
                 <div className='popular_category_wrapper'>
                     <h1>Popular category</h1>
-                    <h6>View All <i class="fa-solid fa-arrow-right"></i></h6>
+                    <h6>View All <i className="fa-solid fa-arrow-right"></i></h6>
                 </div>
 
                 <div className='popular_category_box'>

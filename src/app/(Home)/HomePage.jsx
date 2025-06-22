@@ -4,6 +4,9 @@ import './Home.css'
 import PopularCategory from './PopularCategory'
 import JobPioltWork from './JobPioltWork'
 import MostPopularVaccines from './MostPopularVaccines'
+import FeaturedJob from './FeaturedJob'
+import TopCompanies from './TopCompanies'
+import Candidate from './Candidate'
 const HomePage = () => {
   return (
     <>
@@ -11,6 +14,9 @@ const HomePage = () => {
         <MostPopularVaccines/>
         <JobPioltWork/>
         <PopularCategory/>
+        <FeaturedJob/>
+        <TopCompanies/>
+        <Candidate/>
      
        
     </>
