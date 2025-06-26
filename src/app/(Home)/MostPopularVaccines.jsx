@@ -1,82 +1,38 @@
-import React from 'react'
-
+'use client'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 const MostPopularVaccines = () => {
-  return (
-    <>
-        <div className='most_popular_wrapper'>
-            <div className='universal_container'>
-                <h1>Most Popular Vacancies</h1>
-                <div className='vacanies_wrapper'>
-                    <div className='vacacines_div'>
-                       <h6>Anesthesiologists</h6>
-                       <p>45,904 Open Positions</p>
-                    </div>
+   const data = useSelector((state)=>state.job);
+   const [jobdata,setjobdata]=useState([])
+   useEffect(()=>{
+     if(data){
+        setjobdata(data.jobs)
+     }
+   },[data])
+   
+    return (
+        <>
 
-                    <div className='vacacines_div'>
-                       <h6>Surgeons</h6>
-                       <p>50,364 Open Positions</p>
-                    </div>
-
-                    <div className='vacacines_div'>
-                       <h6>Obstetricians-Gynecologists</h6>
-                       <p>4,339 Open Positions</p>
-                    </div>
-
-
-                    <div className='vacacines_div'>
-                       <h6>Orthodontists</h6>
-                       <p>20,079 Open Positions</p>
-                    </div>
-
-                    <div className='vacacines_div'>
-                       <h6>Maxillofacial Surgeons</h6>
-                       <p>74,875 Open Positions</p>
-                    </div>
-
-
-                    <div className='vacacines_div'>
-                       <h6>Software Developer</h6>
-                       <p>43359 Open Positions</p>
-                    </div>
-
-
-                    <div className='vacacines_div'>
-                       <h6>Psychiatrists</h6>
-                       <p>18,599 Open Positions</p>
-                    </div>
-
-
-                    <div className='vacacines_div'>
-                       <h6>Data Scientist</h6>
-                       <p>28,200 Open Positions</p>
-                    </div>
-
-                    <div className='vacacines_div'>
-                       <h6>Financial Manager</h6>
-                       <p>61,391 Open Positions</p>
-                    </div>
-
-                    <div className='vacacines_div'>
-                       <h6>Management Analysis</h6>
-                       <p>93,046 Open Positions</p>
-                    </div>
-
-
-                    <div className='vacacines_div'>
-                       <h6>IT Manager</h6>
-                       <p>50,963 Open Positions</p>
-                    </div>
-
-
-                    <div className='vacacines_div'>
-                       <h6>Operations Research Analysis</h6>
-                       <p>16,627 Open Positions</p>
+            <div className='most_popular_wrapper'>
+                <div className='universal_container'>
+                    <h1>Most Popular Vacancies</h1>
+                    <div className='vacanies_wrapper'>
+                    { jobdata.map((e,i)=>{
+                        if( i <= 16 && i >  0) {
+                            return(
+                            <div key={i} className='vacacines_div'>
+                                   <h6>{e.title}</h6>
+                                   <p>{i * 20},{i * 156} Open Positions</p>
+                               </div>
+                               )
+                        }
+                      
+                    })}
                     </div>
                 </div>
             </div>
-        </div>
-    </>
-  )
+        </>
+    )
 }
 
 export default MostPopularVaccines

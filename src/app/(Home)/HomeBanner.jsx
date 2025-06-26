@@ -23,11 +23,11 @@ const HomeBanner = () => {
                     <div className='banner_job_title_wrapper'>
                         <div className='job_title_input_div'>
                             <input placeholder='Job tittle, Keyword...'/>
-                            <Image src={search}/>
+                            <Image src={search} alt='search'/>
                         </div>
                         <div className='location_wrapper'>
                             <input placeholder='Your Location'/>
-                            <Image src={location}/>
+                            <Image src={location} alt='location'/>
                             <div className='find_job_btn'>Find Job</div>
                         </div>
                         
@@ -44,7 +44,7 @@ const HomeBanner = () => {
                  
                 </div>
                 <div className='home_banner_right'>
-                    <Image src={bannerImg}/>
+                    <Image src={bannerImg} alt='bannerImg'/>
                 </div>
             </div>
                <div className='banner_cards_wrapper'>

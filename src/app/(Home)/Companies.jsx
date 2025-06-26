@@ -7,7 +7,7 @@ const Companies = () => {
         <div className='companies_Wrapper'>
         {[1,2,3,4,5,6,7,8].map((e,i)=>{
             return(
-                <div className='company_div'>
+                <div key={i} className='company_div'>
                 <div className='company_logo_Wrapper'>
                       <Image src={logo} alt='company_logo'/>
                       <div className='company_name'>
