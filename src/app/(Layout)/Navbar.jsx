@@ -1,11 +1,27 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import './Navbar.css'
 import Link from 'next/link'
 import logo from '../Assets/Images/Logo.png'
 import Image from 'next/image'
 import flag from '../Assets/Images/image 1.png'
 import search from '../Assets/Images/fi_search.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { FilterJobs } from '../Store/Slices/JobFLiterSlice'
 const Navbar = () => {
+    const data = useSelector(state => state.jobFilter)
+    const dispatch = useDispatch();
+
+    const HandlePress = (e) =>{
+        if(e.key == 'Enter'){
+            dispatch(FilterJobs({query:{
+                title:e.target.value,
+                location:'',
+            }} ,))
+            console.log(data)
+          }
+    }
     return (
         <>
             <div className='nav_bar_links_wrapper'>
@@ -51,7 +67,7 @@ const Navbar = () => {
                             <div className='job_input_div_nav' style={{
                                 position: 'relative'
                             }}>
-                                <input placeholder='Job tittle, keyword, company' type='text'></input>
+                                <input onKeyDown={HandlePress}  placeholder='Job tittle, keyword, company' type='text'></input>
                                 <Image style={{
                                     position: 'absolute',
                                     top: '0px',

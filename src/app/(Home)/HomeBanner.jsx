@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import bannerImg from '../Assets/Images/Illustration.png'
 import Image from 'next/image'
 import search from '../Assets/Images/fi_search.png'
@@ -6,7 +7,25 @@ import location from '../Assets/Images/fi_map-pin.png'
 import briefcase from '../Assets/Images/briefcase-duotone 1.png'
 import building from '../Assets/Images/buildings-duotone 1.png'
 import user from '../Assets/Images/users-duotone 1.png'
+import { useDispatch } from 'react-redux'
+import { FilterJobs } from '../Store/Slices/JobFLiterSlice'
 const HomeBanner = () => {
+    const dispatch = useDispatch();
+    const [inputValue,setinputValue]=useState({
+        title:'',
+        location:''
+    })
+     
+    const HandleChange = (e)=>{
+       const {name,value}=e.target;
+       setinputValue((prev)=>({
+        ...prev,
+        [name]:value
+       }))
+    }
+    const HandleSubmit = () =>{
+        dispatch(FilterJobs({query:inputValue}))
+    }
   return (
     <>
         <div className='home_banner_main' style={{
@@ -22,13 +41,17 @@ const HomeBanner = () => {
                     <p>Aliquam vitae turpis in diam convallis finibus in at risus. Nullam in scelerisque leo, eget sollicitudin velit bestibulum.</p>
                     <div className='banner_job_title_wrapper'>
                         <div className='job_title_input_div'>
-                            <input placeholder='Job tittle, Keyword...'/>
+                            <input onChange={HandleChange} name='title' placeholder='Job tittle, Keyword...'/>
                             <Image src={search} alt='search'/>
                         </div>
                         <div className='location_wrapper'>
-                            <input placeholder='Your Location'/>
+                            <input onChange={HandleChange} name='location' placeholder='Your Location'/>
                             <Image src={location} alt='location'/>
-                            <div className='find_job_btn'>Find Job</div>
+                            <div style={{
+                                cursor:'pointer'
+                            }} className='find_job_btn' onClick={(()=>{
+                                HandleSubmit()
+                            })}>Find Job</div>
                         </div>
                         
                     </div>
