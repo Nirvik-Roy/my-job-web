@@ -52,17 +52,17 @@
     width: 100%;
     max-width: 47%;
     min-width:47%;
-    height: 40%;
+    height: 25px;
     position: relative;
     border-right: 1px solid #ccc;
+ 
 }
 .location_wrapper{
     width: 100%;
     max-width: 50%;
     min-width:50%;
-    height: 40%;
+    height: 25px;
     position: relative;
-    
 }
 .location_wrapper input{
     width: 100%;

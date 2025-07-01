@@ -9,7 +9,6 @@ const MostPopularVaccines = () => {
         setjobdata(data.jobs)
      }
    },[data])
-   
     return (
         <>
 
