@@ -3,7 +3,9 @@ const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 export const SavedJobs = createAsyncThunk('SavedJobs',async(job_id,{getState})=>{
     const GetJobsData = getState();
-    return GetJobsData.job.jobs.filter(e=>e.id === job_id._id)
+    // Find Method will return a object//
+    return GetJobsData.job.jobs.find(e=>e.id === job_id._id) 
+    
 })
 const SavedJobSlice = createSlice({
     name:'savedJob',
@@ -19,15 +21,21 @@ const SavedJobSlice = createSlice({
         state.isLoading=true;
       })
       builder.addCase(SavedJobs.fulfilled,(state,action)=>{
-        const ElementExists = state.saved.findIndex(e=>e.id === action.payload.id);
-        if(ElementExists > -1){
-            state.saved.splice(ElementExists,1)
-            state.id.splice(ElementExists,1)
-        }else{
-            state.saved.push(action.payload);
-            state.id.push(action.payload[0].id);
-        }
         state.isLoading=false;
+        const ElementExists = state.saved.findIndex(e=>e.id === action.payload.id)
+        if(ElementExists > -1){
+          state.saved.splice(ElementExists,1);
+        }else{
+          state.saved.push(action.payload);
+        }
+        const idExists = state.id.find(e=>e == action.payload.id)
+        const idIndex = state.id.findIndex(e=>e == action.payload.id)
+        if(idExists){
+          state.id.splice(idIndex,1)
+        }else{
+          state.id.push(action.payload.id)
+        }
+        
       })
       builder.addCase(SavedJobs.rejected,(state,error)=>{
          state.isError=true;
