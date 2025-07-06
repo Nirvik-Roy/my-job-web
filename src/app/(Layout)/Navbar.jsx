@@ -9,7 +9,10 @@ import flag from '../Assets/Images/image 1.png'
 import search from '../Assets/Images/fi_search.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { FilterJobs } from '../Store/Slices/JobFLiterSlice'
+import { usePathname } from 'next/navigation'
 const Navbar = () => {
+    const NotNavbarRoutes=['/login'];
+    const pathName = usePathname()
     const data = useSelector(state => state.jobFilter)
     const dispatch = useDispatch();
 
@@ -19,13 +22,12 @@ const Navbar = () => {
                 title:e.target.value,
                 location:'',
             }} ,))
-            console.log(data)
           }
     }
     return (
         <>
-            <div className='nav_bar_links_wrapper'>
-                <div className='universal_container navbar_links_div'>
+            <div className='nav_bar_links_wrapper' style={NotNavbarRoutes.includes(pathName)? {display:'none'}:{}}>
+                <div className='universal_container navbar_links_div' >
                     <div className='nav_link_left'>
                         <Link href={'/'}>Home</Link>
                         <Link href={'/'}>Find Job</Link>
@@ -45,7 +47,7 @@ const Navbar = () => {
                 </div>
             </div>
 
-            <div className='job_location_wrapper' >
+            <div style={NotNavbarRoutes.includes(pathName)? {display:'none'}:{}} className='job_location_wrapper' >
                 <div className='job_location_search_wrapper universal_container'>
                     <div className='logo_job_wrapper'>
                         <div style={{
