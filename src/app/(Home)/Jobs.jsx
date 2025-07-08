@@ -18,11 +18,7 @@ const Jobs = () => {
 
     const SavedJobFunc = (id)=>{
         dispatch(SavedJobs({_id:id}))
-      
     }
-
-    console.log(SavedJobsData)
-
   return (
     <>
         <div className='job_list_wrapper'>

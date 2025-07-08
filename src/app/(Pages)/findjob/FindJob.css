@@ -1,0 +1,62 @@
+.find_job_inputs_wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px 0px #0000001e;
+    padding: 12px 15px;
+    margin-top: 20px;
+}
+.find_job_inputs_wrapper input{
+    width: 100%;
+    height: 45px;
+    border: none;
+    padding: 0px 25px;
+    border-right: 1px solid #ccc;
+    outline: none;
+}
+.find_job_input{
+    width: 31%;
+    position: relative;
+}
+.find_job_input i{
+    position: absolute;
+    top: 14px;
+    left: 0px;
+    color: #226bc0;
+}
+.find_job_inputs_wrapper select{
+    width: 25%;
+    height: 45px;
+    border: none;
+    border: 1px solid #e3e4e8;
+    border-radius: 5px;
+    outline: none   ;
+}
+.find_job_inputs_wrapper button{
+    width: fit-content;
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 12px 30px;
+    background-color: #226bc0;
+    border: none;
+    border-radius: 3px;
+
+}
+.selected_filter_2{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+.selected_filter_2 select{
+    width: 200px;
+    height: 45px;
+    border: 1px solid #e3e4e8;
+    border-radius: 5px;
+    background-color: #fff;
+    outline: none;
+    padding: 0px 10px;
+
+}

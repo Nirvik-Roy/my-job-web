@@ -8,8 +8,9 @@ const JobApiFetch = () => {
     const data = useSelector((state)=>state.job);
     useEffect(()=>{
     dispatch(fetchJobs())
-
+         
     },[])
+    
   return null;
 }
 
