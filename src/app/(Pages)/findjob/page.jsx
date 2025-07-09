@@ -1,9 +1,34 @@
+'use client'
+
 import './FindJob.css'
 import '../../(Home)/Home.css'
 import cross from '../../Assets/Images/fi_x-circle.png'
 import Image from 'next/image'
 import Jobs from '@/app/(Home)/Jobs'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 const page = () => {
+    const data = useSelector((state) => state.job);
+    const [jobsPerpage,setjobsPerpage]=useState(12);
+    const [clickedPagination,setClickedPagination]=useState()
+    
+    const [paginations,setPaginations]=useState();
+    useEffect(()=>{
+        if(data){
+            setPaginations(Array(data.jobs.length / jobsPerpage).fill(null))
+            setClickedPagination(jobsPerpage)
+        }
+    },[data,jobsPerpage])
+
+    const PerpageFunc = (e) =>{
+       if(e.target.value == 12){
+        setjobsPerpage(12)
+       }else if(e.target.value == 6){
+        setjobsPerpage(6)
+       }else{
+        setjobsPerpage(3)
+       }
+    }
     return (
         <>
             <div style={{
@@ -108,12 +133,14 @@ const page = () => {
                         <select>
                             <option>Latest</option>
                         </select>
-                        <select>
-                            <option>12 per page </option>
+                        <select onChange={PerpageFunc}>
+                            <option value={12}>12 per page </option>
+                            <option value={6}>6 per page </option>
+                            <option value={3}>3 per page </option>
                         </select>
                     </div>
                 </div>
-                <Jobs />
+                <Jobs clickedPagination={clickedPagination} findJob={true} jobsPerpage={jobsPerpage} />
 
                 <div style={{
                     display: 'flex',
@@ -132,23 +159,32 @@ const page = () => {
                         fontSize: '15px',
                         background: '#e7effa'
                     }}><i className="fa-solid fa-arrow-left"></i></div>
-    {['01','02','03','04','05'].map((e,i)=>{
-        return(
-           
-            <div key={i} style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        color: '#fff',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: "center",
-                        fontSize: '12px',
-                        background: '#0b63d3'
-                    }}>{e}</div>
-          
-        )
-    })}
+                    <div style={{
+                        width:'270px',
+                        display:'flex',
+                        alignItems:'center',
+                        columnGap:'5px',
+                        overflow:'auto'
+                    }}>
+                    {paginations?.map((e, i) => {
+                        return (
+                            <div onClick={(()=>setClickedPagination(i+jobsPerpage))} className='pagi_number' key={i} style={{
+                                width: '40px',
+                                minWidth:"40px",
+                                height: '40px',
+                                borderRadius: '50%',
+                                color: '#fff',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: "center",
+                                fontSize: '12px',
+                                background: '#0b63d3',
+                            }}>{i+1}</div>
+
+                        )
+                    })}
+                    </div>
+
 
                     <div style={{
                         width: '40px',
