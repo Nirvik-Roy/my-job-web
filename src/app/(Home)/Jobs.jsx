@@ -88,7 +88,7 @@ const Jobs = ({ findJob, jobsPerpage, clickedPagination}) => {
 
             {findJob && <div className='job_list_wrapper'>
                 {filterJobs.map((e, i) => {
-                    if (i > index.startIndex+clickedPagination && i < index.endIndex+clickedPagination) {
+                    if (i >= index.startIndex * clickedPagination && i <= index.endIndex * clickedPagination - jobsPerpage) {
                         return (
                             <div key={i} className='job_div_wrapper'>
                                 <div className='job_div_left'>

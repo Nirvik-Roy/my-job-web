@@ -10,13 +10,12 @@ import { useSelector } from 'react-redux'
 const page = () => {
     const data = useSelector((state) => state.job);
     const [jobsPerpage,setjobsPerpage]=useState(12);
-    const [clickedPagination,setClickedPagination]=useState()
+    const [clickedPagination,setClickedPagination]=useState(1)
     
     const [paginations,setPaginations]=useState();
     useEffect(()=>{
         if(data){
             setPaginations(Array(data.jobs.length / jobsPerpage).fill(null))
-            setClickedPagination(jobsPerpage)
         }
     },[data,jobsPerpage])
 
@@ -168,7 +167,7 @@ const page = () => {
                     }}>
                     {paginations?.map((e, i) => {
                         return (
-                            <div onClick={(()=>setClickedPagination(i+jobsPerpage))} className='pagi_number' key={i} style={{
+                            <div onClick={(()=>setClickedPagination(i+1))} className='pagi_number' key={i} style={{
                                 width: '40px',
                                 minWidth:"40px",
                                 height: '40px',
