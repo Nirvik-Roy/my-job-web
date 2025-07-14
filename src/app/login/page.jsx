@@ -10,15 +10,17 @@ import smallimg3 from '../Assets/Images/Frame 7 (3).png'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 const page = () => {
-
+ 
     const [show,setShow]=useState(false);
     const [formData,setformData]=useState({
         email:'',
         password:''
     })
     const dispatch = useDispatch()
-
+    const navigate = useRouter()
     const HandleChange = (e) =>{
         const {name,value}=e.target
         setformData({
@@ -29,10 +31,14 @@ const page = () => {
     
     const HandleSubmit = async (e) =>{
         e.preventDefault()
-       const response = await axios.post('https://api.escuelajs.co/api/v1/auth/login',formData);
-       if(response.data){
-        
-        Cookies.set('my_job_token',response.data.access_token)
+       const response = await axios.post('http://localhost:5000/api/v1/user/login',formData);
+       if(response.data.payload.accessToken){
+        // Cookies.set('my_job_token',response.data.access_token)
+        Cookies.set('my_job_token',response.data.payload.accessToken)
+        toast.success(`${response.data.message}... Redirecting...`)
+        setTimeout(()=>{
+          navigate.push('/')
+        },2000)
        }else{
         console.log('error occured')
        }

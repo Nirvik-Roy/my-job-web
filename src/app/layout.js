@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import Store from "./Store/Store";
 import ProviderWrapper from "./Store/ProviderWrapper";
 import JobApiFetch from "./Api/JobApiFetch";
+import ToastProvider from "./ToastProvider";
 
 
 export const metadata = {
@@ -34,6 +35,7 @@ export default  function RootLayout({ children }) {
      <JobApiFetch/>
       <Navbar/>
       {children}
+      <ToastProvider/>
       </ProviderWrapper> 
       </body>
     </html>

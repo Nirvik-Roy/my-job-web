@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FilterJobs } from '../Store/Slices/JobFLiterSlice'
 import { usePathname } from 'next/navigation'
 const Navbar = () => {
-    const NotNavbarRoutes=['/login'];
+    const NotNavbarRoutes=['/login','/register'];
     const pathName = usePathname()
     const data = useSelector(state => state.jobFilter)
     const dispatch = useDispatch();

@@ -1,10 +1,10 @@
 'use client'
-
 import React, { useEffect, useState } from 'react'
 import joblogo from '../Assets/Images/Employers Logo.png'
 import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { SavedJobs } from '../Store/Slices/SavedJobSlice'
+import { current } from '@reduxjs/toolkit'
 const Jobs = ({ findJob, jobsPerpage, clickedPagination}) => {
     const data = useSelector((state) => state.job);
     const SavedJobsData = useSelector((state) => state.savedJob)
@@ -39,14 +39,16 @@ const Jobs = ({ findJob, jobsPerpage, clickedPagination}) => {
                     endIndex: 3
                 })
         }
-
-
     }, [data, SavedJobsData, jobsPerpage]);
 
     
     const SavedJobFunc = (id) => {
         dispatch(SavedJobs({ _id: id }))
     }
+
+    const LastPostIndex = jobsPerpage * clickedPagination;
+    const firstPostIndex = LastPostIndex - jobsPerpage;
+
     return (
         <>
             {!findJob && <div className='job_list_wrapper'>
@@ -88,7 +90,7 @@ const Jobs = ({ findJob, jobsPerpage, clickedPagination}) => {
 
             {findJob && <div className='job_list_wrapper'>
                 {filterJobs.map((e, i) => {
-                    if (i >= index.startIndex * clickedPagination && i <= index.endIndex * clickedPagination - jobsPerpage) {
+                    if (i >= firstPostIndex && i < LastPostIndex) {
                         return (
                             <div key={i} className='job_div_wrapper'>
                                 <div className='job_div_left'>
