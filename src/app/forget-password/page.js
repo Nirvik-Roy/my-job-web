@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import './Login.css'
+import '../login/Login.css'
 import image from '../Assets/Images/Image.png'
 import logo from '../Assets/Images/Logo.png'
 import Image from 'next/image'
@@ -12,14 +12,15 @@ import { useDispatch } from 'react-redux'
 import Cookies from 'js-cookie'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import { Router } from 'next/router'
+import { ResetPassword } from '../Store/Slices/ResetPasswordSlice'
 const page = () => {
- 
+    const dispatch = useDispatch()
     const [show,setShow]=useState(false);
     const [formData,setformData]=useState({
-        email:'',
-        password:''
+        oldPassword:'',
+        newPassword:''
     })
-    const dispatch = useDispatch()
     const navigate = useRouter()
     const HandleChange = (e) =>{
         const {name,value}=e.target
@@ -31,19 +32,10 @@ const page = () => {
     
     const HandleSubmit = async (e) =>{
         e.preventDefault()
-        try{
-            const response = await axios.post('http://localhost:5000/api/v1/user/login',formData);
-            if(response.data.payload.accessToken){
-             // Cookies.set('my_job_token',response.data.access_token)
-             Cookies.set('my_job_token',response.data.payload.accessToken)
-             toast.success(`${response.data.message}... Redirecting...`)
-             setTimeout(()=>{
-               navigate.push('/')
-             },2000)
-            }   
-        }catch(err){
-            toast.error(err.response.data.message)
-        }
+        dispatch(ResetPassword({query:{
+            oldPassword:formData.oldPassword,
+            newPassword:formData.newPassword
+        }},))
     }
   return (
     <>
@@ -51,15 +43,17 @@ const page = () => {
             <div className='login_left'>
                 <Image className='logo_img' alt='logo' src={logo}/>
                 <div className='login_form'>
-                    <h3>Sign In</h3>
-                    <p>Don’t have account <span>Create Account</span></p>
+                    <h3>Reset Password</h3>
+                    <p>Don’t have account <span onClick={(()=>{
+                        navigate.push('/register')
+                    })}>Create Account</span></p>
                     <form className='login_wrapper_form'>
-                        <input name='email' onChange={HandleChange} type='text' placeholder='Email address'/>
+                      
                         <div style={{
                             width:"100%",
                             position:'relative'
                         }}>
-                        <input name='password' onChange={HandleChange}  type={!show ?'text':'password'} placeholder='Password'/>
+                        <input name='oldPassword' onChange={HandleChange}  type={!show ?'text':'password'} placeholder='Old Password'/>
                       {show ?  <i onClick={(()=>setShow(false))} style={{
                             fontSize:'15px',
                             position:'absolute',
@@ -77,6 +71,28 @@ const page = () => {
                         }}  onClick={(()=>setShow(true))} className="fa-regular fa-eye-slash"></i>}
                         </div>
           
+
+                        <div style={{
+                            width:"100%",
+                            position:'relative'
+                        }}>
+                        <input name='newPassword' onChange={HandleChange}  type={!show ?'text':'password'} placeholder='New Password'/>
+                      {show ?  <i onClick={(()=>setShow(false))} style={{
+                            fontSize:'15px',
+                            position:'absolute',
+                            top:'16px',
+                            right:'15px',
+                            color:'gray',
+                            cursor:"pointer"
+                        }} className="fa-regular fa-eye"></i> : <i style={{
+                            fontSize:'15px',
+                            position:'absolute',
+                            top:'16px',
+                            right:'15px',
+                            color:'gray',
+                            cursor:"pointer"
+                        }}  onClick={(()=>setShow(true))} className="fa-regular fa-eye-slash"></i>}
+                        </div>
                         <div>
                             <div style={{
                                 display:'flex',
