@@ -8,20 +8,18 @@ import smallimg from '../Assets/Images/Frame 7 (1).png'
 import smallimg2 from '../Assets/Images/Frame 7 (2).png'
 import smallimg3 from '../Assets/Images/Frame 7 (3).png'
 import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Cookies from 'js-cookie'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import { Router } from 'next/router'
-import { ResetPassword } from '../Store/Slices/ResetPasswordSlice'
+import { useSelector } from 'react-redux'
 const page = () => {
-    const dispatch = useDispatch();
-    const {otp,success} = useSelector(state => state.resetPassword)
-    const [show, setShow] = useState(false);
     const [formData, setformData] = useState({
-        oldPassword: '',
+        otp: '',
         newPassword: ''
     })
+    const dispatch = useDispatch();
+    const { success, otp } = useSelector(state => state.resetPassword)
     const navigate = useRouter()
     const HandleChange = (e) => {
         const { name, value } = e.target
@@ -30,97 +28,43 @@ const page = () => {
             [name]: value
         })
     }
-
     const HandleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(ResetPassword({
-            query: {
-                oldPassword: formData.oldPassword,
-                newPassword: formData.newPassword
+        const jobToken = Cookies.get('my_job_token');
+        if (jobToken) {
+            try {
+                const res = await axios.post('http://localhost:5000/api/v1/user/verify-otp', formData, {
+                    headers: {
+                        'Authorization': `${jobToken}`
+                    }
+                });
+                toast.success(res.data.message)
+                setTimeout(()=>{
+                    navigate.push('/login')
+                },2000)
+                return res.data
+            } catch (err) {
+                toast.error(err.response.data.message)
             }
-        },))
+        } else {
+            toast.error('No Job Token is Found ');
+        }
     }
-
-    useEffect(()=>{
-       if(success){
-        navigate.push('/otp')
-       }
-    },[success,otp])
     return (
         <>
             <div className='login_wrapper'>
                 <div className='login_left'>
                     <Image className='logo_img' alt='logo' src={logo} />
                     <div className='login_form'>
-                        <h3>Reset Password</h3>
-                
-                        <p>Don’t have account <span onClick={(() => {
-                            navigate.push('/register')
-                        })}>Create Account</span></p>
+                        <h3>Verify Your Otp To Reset Password</h3>
+                        {success && <p>Otp -  <span>{success && otp}</span></p>}
+                        <p>Don’t have otp <span style={{
+                            fontSize: '12px',
+                            fontFamily: 'Poppins'
+                        }}>Resend Otp</span></p>
                         <form className='login_wrapper_form'>
-
-                            <div style={{
-                                width: "100%",
-                                position: 'relative'
-                            }}>
-                                <input name='oldPassword' onChange={HandleChange} type={!show ? 'text' : 'password'} placeholder='Old Password' />
-                                {show ? <i onClick={(() => setShow(false))} style={{
-                                    fontSize: '15px',
-                                    position: 'absolute',
-                                    top: '16px',
-                                    right: '15px',
-                                    color: 'gray',
-                                    cursor: "pointer"
-                                }} className="fa-regular fa-eye"></i> : <i style={{
-                                    fontSize: '15px',
-                                    position: 'absolute',
-                                    top: '16px',
-                                    right: '15px',
-                                    color: 'gray',
-                                    cursor: "pointer"
-                                }} onClick={(() => setShow(true))} className="fa-regular fa-eye-slash"></i>}
-                            </div>
-
-
-                            <div style={{
-                                width: "100%",
-                                position: 'relative'
-                            }}>
-                                <input name='newPassword' onChange={HandleChange} type={!show ? 'text' : 'password'} placeholder='New Password' />
-                                {show ? <i onClick={(() => setShow(false))} style={{
-                                    fontSize: '15px',
-                                    position: 'absolute',
-                                    top: '16px',
-                                    right: '15px',
-                                    color: 'gray',
-                                    cursor: "pointer"
-                                }} className="fa-regular fa-eye"></i> : <i style={{
-                                    fontSize: '15px',
-                                    position: 'absolute',
-                                    top: '16px',
-                                    right: '15px',
-                                    color: 'gray',
-                                    cursor: "pointer"
-                                }} onClick={(() => setShow(true))} className="fa-regular fa-eye-slash"></i>}
-                            </div>
-                            <div>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'flex-start',
-                                    alignItems: 'center',
-                                    columnGap: '5px'
-                                }}>
-                                    <input style={{
-                                        width: '17px',
-                                        height: "17px"
-                                    }} type='checkbox' />
-                                    <p style={{
-                                        fontSize: '13px'
-                                    }}>Remember Me</p>
-                                </div>
-
-
-                            </div>
+                            <input name='otp' onChange={HandleChange} type='text' placeholder='Enter Otp' />
+                            <input name='newPassword' onChange={HandleChange} type='password' placeholder='Enter New Password' />
 
                             <button onClick={HandleSubmit} style={{
                                 width: '100%',
@@ -133,7 +77,7 @@ const page = () => {
                                 cursor: 'pointer',
                                 fontSize: '17px',
                                 borderRadius: '5px'
-                            }}>Sign In</button>
+                            }}>Verify Otp</button>
                         </form>
                     </div>
 
