@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { redirect } from "next/navigation";
@@ -41,8 +40,6 @@ const ResetPasswordSlice = createSlice({
             state.otp = action.payload.payload.otp
             state.success = true,
             state.isLoading = true
-            
-            
         })
         builder.addCase(ResetPassword.rejected, (state, action) => {
             console.log('unexpected error occured', action.error)
