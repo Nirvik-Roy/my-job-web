@@ -21,9 +21,7 @@ const JobSlice = createSlice({
        
        builder.addCase(fetchJobs.pending,(state,action)=>{
         state.isloading = true
-     
        })
-
        builder.addCase(fetchJobs.fulfilled,(state,action)=>{
         state.isloading = false,
         state.jobs = action.payload
