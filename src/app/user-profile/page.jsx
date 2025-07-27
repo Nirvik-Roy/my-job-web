@@ -11,6 +11,7 @@ const page = () => {
     const [imageUrl, setImageUrl] = useState("")
     const [loader, setLoader] = useState(false)
     const [files, setfiles] = useState([]);
+    const [filesUrl, setfilesUrl] = useState([])
 
     const HandleImageUpload = (e) => {
         if (e.target.files) {
@@ -36,6 +37,8 @@ const page = () => {
                 setLoader(false);
 
             }
+        } else {
+            toast.error('No Image Selected')
         }
     }
 
@@ -47,21 +50,26 @@ const page = () => {
     const HandleFileSubmit = async () => {
         if (files.length > 0) {
             setLoader(true)
+            const formData = new FormData();
+            files.forEach((e) => {
+                formData.append('documents', e)
+            })
             try {
-                const formData = new FormData();
-                formData.append('documents', [...files])
                 const res = await axios.post('http://localhost:5000/api/v1/upload-document', formData)
                 if (res?.data?.success) {
                     toast.success(res?.data?.message || 'File Uploading...');
-                    console.log(res?.data)
+                    setfilesUrl([...res.data.payload?.documents])
                 }
             } catch (err) {
                 toast.error(res.data.message || err.message || 'File Upload Failed')
             } finally {
                 setLoader(false)
             }
+        } else {
+            toast.error('No Files Selected')
         }
     }
+
     return (
         <>
             {loader && <Loader />}
