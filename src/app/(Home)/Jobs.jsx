@@ -5,11 +5,16 @@ import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { SavedJobs } from '../Store/Slices/SavedJobSlice'
 import { current } from '@reduxjs/toolkit'
-const Jobs = ({ findJob, jobsPerpage, clickedPagination}) => {
+import { toast } from 'react-toastify'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+const Jobs = ({ findJob, jobsPerpage, clickedPagination }) => {
     const data = useSelector((state) => state.job);
     const SavedJobsData = useSelector((state) => state.savedJob)
     const [jobs, setJobs] = useState([]);
     const [filterJobs, setFilterJobs] = useState([]);
+    const [jobIndex, setJobIndex] = useState([])
+
     const [index, setIndex] = useState({
         startIndex: 0,
         endIndex: 12,
@@ -41,13 +46,37 @@ const Jobs = ({ findJob, jobsPerpage, clickedPagination}) => {
         }
     }, [data, SavedJobsData, jobsPerpage]);
 
-    
+
     const SavedJobFunc = (id) => {
         dispatch(SavedJobs({ _id: id }))
     }
 
     const LastPostIndex = jobsPerpage * clickedPagination;
     const firstPostIndex = LastPostIndex - jobsPerpage;
+
+    const SendObj = async (e) => {
+        const obj = {
+            job_id: e.id,
+            title: e.title,
+            location: e.location,
+            salary: e.salary_to,
+            dateApplied: new Date()
+        }
+        setJobIndex([...jobIndex, e.id])
+        const token = Cookies.get('my_job_token');
+        if (token) {
+            try {
+                const res = await axios.post('http://localhost:5000/api/v1/job/apply-job', obj, {
+                    headers: {
+                        'Authorization': `${token}`
+                    }
+                })
+                toast.success(res.data.message || 'Appiled Succesfully')
+            } catch (err) {
+                toast.error(err.response?.data?.message || err.message || 'Unexpected Error Occured')
+            }
+        }
+    }
 
     return (
         <>
@@ -77,7 +106,12 @@ const Jobs = ({ findJob, jobsPerpage, clickedPagination}) => {
 
                                     {SavedJobsData.id.includes(e.id) ? <i onClick={(() => { SavedJobFunc(e.id) })} className="fa-solid fa-bookmark"></i> : <i onClick={(() => { SavedJobFunc(e.id) })} className="fa-regular fa-bookmark"></i>}
 
-                                    <button>Apply Now <i className="fa-solid fa-arrow-right"></i></button>
+                                    {jobIndex.includes(e.id) ? <button onClick={(() => {
+                                        SendObj(e)
+                                    })}>Applied<i className="fa-solid fa-arrow-right"></i></button> : <button onClick={(() => {
+                                        SendObj(e)
+                                    })}>Apply Now <i className="fa-solid fa-arrow-right"></i></button>}
+
                                 </div>
                             </div>
 
